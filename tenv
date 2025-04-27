@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
+if ! [ -n "$TMUX" ]; then
+    echo "This script must run inside a tmux session" >&2
+    exit 1
+fi
+
+source "$HOME/.tmux/plugins/tmux-resurrect/scripts/helpers.sh"
 CURRENT_DIR=$(pwd)
-TMUX_RESURRECT_DIR="$HOME/.local/share/tmux/resurrect"
+TMUX_RESURRECT_DIR="$(resurrect_dir)"
 TMUX_LAST_LN="$TMUX_RESURRECT_DIR/last"
 RESURRECT_FILE="$CURRENT_DIR/.tenv"
+
+echo "tmux-resurrect sessions are saved in: $TMUX_RESURRECT_DIR"
 
 function del_last_ln {
     if [ -f "$TMUX_LAST_LN" ]; then
