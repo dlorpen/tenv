@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+CURRENT_DIR=$(pwd)
+TMUX_RESURRECT_DIR="$HOME/.local/share/tmux/resurrect"
+TMUX_LAST_LN="$TMUX_RESURRECT_DIR/last"
+RESURRECT_FILE="$CURRENT_DIR/.tmux_resurrect"
+
+function del_last_ln {
+    if [ -f "$TMUX_LAST_LN" ]; then
+	rm "$TMUX_LAST_LN"
+	echo "Deleted last link in tmux resurrect config"
+    fi
+}
+
+function link_resurrect_file {
+    ln -s "$RESURRECT_FILE" "$TMUX_LAST_LN"
+    echo "Linked resurrect file to last link in tmux resurrect config"
+}
+
+function copy_latest {
+    # Find the most recently created file (not symbolic link)
+    LATEST_FILE=$(find "$TMUX_RESURRECT_DIR" -maxdepth 1 -type f ! -lname '*' \
+		       -exec stat --format='%W %n' {} + \
+		      | sort -n | tail -n 1 | cut -d' ' -f2-)
+
+    if ! [ -f "$LATEST_FILE" ]; then
+	cat >&2 << EOF_
+No latest file to copy!
+Start tmux, set up the windows as you want them and hit <Prefix> + Ctrl-s to save a resurrect file.
+Then run tenv again to copy it to your project dir.
+EOF_
+
+	exit 1
+    fi
+
+    cp "$LATEST_FILE" "$RESURRECT_FILE"
+    echo "latest file copied"
+}
+
+if [ -f "$RESURRECT_FILE" ]; then
+    echo "Setting tmux resurrect"
+    del_last_ln
+    link_resurrect_file
+else
+    echo "No tmux_resurrect file exists"
+    read -p "Copy latest? <y/n>: " response
+    response=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+
+    if [[ "$response" == "y" || "$response" == "yes" ]]; then
+	copy_latest
+    fi
+fi
