@@ -14,13 +14,15 @@ RESURRECT_FILE="$CURRENT_DIR/.tenv"
 echo "tmux-resurrect sessions are saved in: $TMUX_RESURRECT_DIR"
 
 function del_last_ln {
-    if [ -f "$TMUX_LAST_LN" ]; then
-	rm "$TMUX_LAST_LN"
+    echo "Deleting last link if it exists: $TMUX_LAST_LN"
+    rm "$TMUX_LAST_LN" &> /dev/null
+    if [ "0" == "$?" ]; then
 	echo "Deleted last link in tmux resurrect config"
     fi
 }
 
 function link_resurrect_file {
+    del_last_ln
     ln -s "$RESURRECT_FILE" "$TMUX_LAST_LN"
     echo "Linked resurrect file to last link in tmux resurrect config"
 }
@@ -47,7 +49,6 @@ EOF_
 
 if [ -f "$RESURRECT_FILE" ]; then
     echo "Setting tmux resurrect"
-    del_last_ln
     link_resurrect_file
 else
     echo "No tmux_resurrect file exists"
