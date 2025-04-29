@@ -11,12 +11,12 @@ tmux-resurrect has one flaw, and that is that saving and loading of sessions is 
 curl the script and put it somewhere logical like `~/.local/bin`. You may need to `chmod +x` it too.
 
 ```bash
-
-	curl
+	curl 'https://raw.githubusercontent.com/dlorpen/tenv/refs/heads/main/tenv' -o tenv
 	chmod +x tenv
+	mv tenv ~/.local/bin/
 ```
 
-You'll need to have TPM and [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) installed too.
+You'll need to have [TPM](https://github.com/tmux-plugins/tpm) and [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) installed too.
 
 ## Usage
 
@@ -25,3 +25,4 @@ Set up the session as you want it and hit `prefix Ctrl s` to save it
 Run `tenv` in your project root directory to copy the latest setup into a `.tenv` file.
 
 Next time you want to load the same configuration, run `tmux` and run `tenv` in your project root dir.
+Then hit `prefix Ctrl r` to reload the tmux config using tmux-resurrect.
