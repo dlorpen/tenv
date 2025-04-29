@@ -10,8 +10,18 @@ tmux-resurrect has one flaw, and that is that saving and loading of sessions is 
 
 curl the script and put it somewhere logical like `~/.local/bin`. You may need to `chmod +x` it too.
 
+```bash
+
+	curl
+	chmod +x tenv
+```
+
 You'll need to have TPM and [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) installed too.
 
 ## Usage
 
-Save the tmux session for your project using tmux-resurrect. Then go to your project root dir and run tenv. It will create a .tenv file in your project directory. Next time you want to work on your project, run tenv, then load tmux and hit <Prefix> Ctrl-r to reload the session. Probably better to not commit your .tenv file to source control unless you work alone.
+Run `tmux`
+Set up the session as you want it and hit `prefix Ctrl s` to save it
+Run `tenv` in your project root directory to copy the latest setup into a `.tenv` file.
+
+Next time you want to load the same configuration, run `tmux` and run `tenv` in your project root dir.
