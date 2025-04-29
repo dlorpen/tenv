@@ -26,3 +26,7 @@ Run `tenv` in your project root directory to copy the latest setup into a `.tenv
 
 Next time you want to load the same configuration, run `tmux` and run `tenv` in your project root dir.
 Then hit `prefix Ctrl r` to reload the tmux config using tmux-resurrect.
+
+I suspect you don't wanna commit the .tenv file - my guess is that it's specific to you so if you commit it then everyone gets your tenv setup which sounds... suboptimal.
+
+If you ever want to change the saved config, delete the .tenv file from your project root, save the config again with tmux-resurrect, and run tenv again to copy the new config in.
