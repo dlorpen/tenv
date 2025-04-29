@@ -1,6 +1,6 @@
 # TENV
 
-This script adds some functionality to the excellent [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect).
+This bash script adds some functionality to the excellent [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect).
 
 tmux-resurrect has one flaw, and that is that saving and loading of sessions is kind of annoying. You can save and load the last session relatively easily, but if say you want a custom tmux setup for each of your projects, it's a pain to setup. You have to find the directory where tmux-resurrect sessions are stored, and symlink the one you want to the 'last' symlink in the same directory.
 
